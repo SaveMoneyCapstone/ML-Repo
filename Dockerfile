@@ -3,7 +3,11 @@ FROM python:3.10-slim AS flask-app
 
 RUN pip install pipenv
 
-WORKDIR /app
+ENV PYTHONBUFFERED True
+
+ENV APP_HOME /app
+
+WORKDIR $APP_HOME
 
 COPY ["Pipfile", "Pipfile.lock", "./"]
 
@@ -13,7 +17,7 @@ COPY ["main.py", ".flaskenv", "proto.py", "model_recomendation=1.bin", "./"]
 
 EXPOSE 9696
 
-CMD ["pipenv", "run", "gunicorn", "--bind", "0.0.0.0:9696", "main:app"]
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
 
 # Stage 2: TensorFlow Serving
 FROM tensorflow/serving:2.14.0
