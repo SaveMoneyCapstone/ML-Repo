@@ -7,6 +7,8 @@ ENV PYTHONBUFFERED True
 
 ENV APP_HOME /app
 
+ENV PORT 8080
+
 WORKDIR $APP_HOME
 
 COPY ["Pipfile", "Pipfile.lock", "./"]
