@@ -10,12 +10,13 @@ import random
 import dill
 from flask import Flask, request, jsonify
 import os
-import grpc
-import tensorflow as tf
-from tensorflow_serving.apis import predict_pb2
-from tensorflow_serving.apis import prediction_service_pb2_grpc
+# import grpc
+# import tensorflow as tf
+# from tensorflow_serving.apis import predict_pb2
+# from tensorflow_serving.apis import prediction_service_pb2_grpc
 import numpy as np
-from proto import np_to_protobuf
+# from proto import np_to_protobuf
+from tensorflow.keras.models import load_model
 
 # os.environ["no_proxy"] = "*"
 # os.getenv("no_proxy")
@@ -39,30 +40,39 @@ model = model(data_saham, tfidfvectorizer, cosine_similarity, pd)
 
 
 # model forecast
-host = os.getenv('TF_SERVING_HOST', 'localhost:8500')
-channel = grpc.insecure_channel(host)
-stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
-
-def prepare_request(X):
-    pb_request = predict_pb2.PredictRequest()
-
-    pb_request.model_spec.name = 'model_cnn_lstm'
-    pb_request.model_spec.signature_name = 'serving_default'
-
-    pb_request.inputs['input_7'].CopyFrom(np_to_protobuf(X))
-    return pb_request
-
-def prepare_response(pb_response):
-    preds = pb_response.outputs['dense_170'].float_val
-    return preds[0]
+model_forecast = load_model('model_cnn_lstm.h5', compile=False)
 
 def predict(data):
-    X = np.array([data])
-    X_float = X.astype(np.float32)
-    pb_request = prepare_request(X_float)
-    pb_response = stub.Predict(pb_request)
-    response = prepare_response(pb_response)
-    return response
+    data_array = np.expand_dims(data, axis=0)
+    normalized_data = data_array.astype(np.float32)
+    predictions = model_forecast.predict(normalized_data)
+    return predictions[0][0]
+
+# host = os.getenv('TF_SERVING_HOST', 'localhost:8500')
+# channel = grpc.insecure_channel(host)
+# stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
+
+# def prepare_request(X):
+#     pb_request = predict_pb2.PredictRequest()
+
+#     pb_request.model_spec.name = 'model_cnn_lstm'
+#     pb_request.model_spec.signature_name = 'serving_default'
+
+#     pb_request.inputs['input_7'].CopyFrom(np_to_protobuf(X))
+#     return pb_request
+
+# def prepare_response(pb_response):
+#     preds = pb_response.outputs['dense_170'].float_val
+#     return preds[0]
+
+# def predict(data):
+#     X = np.array([data])
+#     X_float = X.astype(np.float32)
+#     pb_request = prepare_request(X_float)
+#     pb_response = stub.Predict(pb_request)
+#     response = prepare_response(pb_response)
+#     return response
+
 
 
 #  endpoint news
@@ -211,6 +221,4 @@ def news_endpoint():
 
 
 if __name__ == "model":
-    app.run(debug=True,
-            host="0.0.0.0",
-            port=int(os.environ.get("PORT", 8080)))
+    app.run(debug=True, host='0.0.0.0', port=8080)

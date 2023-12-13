@@ -1,27 +1,17 @@
 # Stage 1: Python Flask app
-FROM python:3.10-slim AS flask-app
+FROM python:3.9-slim
 
 RUN pip install pipenv
 
-ENV PYTHONBUFFERED True
-
-ENV APP_HOME /app
-
-ENV PORT 8080
-
-WORKDIR $APP_HOME
+WORKDIR /app
 
 COPY ["Pipfile", "Pipfile.lock", "./"]
 
 RUN pipenv install --system --deploy
 
-COPY ["main.py", ".flaskenv", "proto.py", "model_recomendation=1.bin", "./"]
+COPY ["main.py", ".flaskenv", "model_recomendation=1.bin", "model_cnn_lstm.h5", "./"]
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+EXPOSE 8080
 
-# Stage 2: TensorFlow Serving
-FROM tensorflow/serving:2.14.0
-
-COPY model-forecast_tf-serving/model_cnn_lstm /models/model_cnn_lstm/1 
-
-ENV MODEL_NAME="model_cnn_lstm"
+# Specify entrypoint
+ENTRYPOINT ["gunicorn", "--bind=0.0.0.0:8080", "main:app"]

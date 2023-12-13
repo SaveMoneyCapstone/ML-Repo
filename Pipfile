@@ -15,6 +15,9 @@ tensorflow-protobuf = "==2.11.0"
 protobuf = "==3.20"
 gunicorn = "*"
 grpcio = "==1.60.0"
+tensorflow-cpu = "*"
+keras = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
