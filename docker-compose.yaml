@@ -2,9 +2,10 @@ version: "4.26.0"
 services:
   model-server:
     image: forecast-model:cnn-lstm-001
+
   gateway:
     image: gateway:v2
     environment:
-      - TF_SERVING_HOST=model-server:8500
+      TF_SERVING_HOST: model-server:8500
     ports:
-      - "9696:9696"
+      - "8080:8080"

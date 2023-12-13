@@ -1,0 +1,14 @@
+steps:
+  # Step untuk membangun dan push Docker image untuk Flask app (Stage 1)
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/savemoney-capstone/savemoney-flask", "-f", "path/to/Dockerfile-FlaskApp", "."]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/savemoney-capstone/savemoney-flask"]
+
+  # Step untuk membangun dan push Docker image untuk TensorFlow Serving (Stage 2)
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/savemoney-capstone/tensorflow-serving", "-f", "path/to/Dockerfile-TensorFlowServing", "."]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/savemoney-capstone/tensorflow-serving"]
