@@ -6,7 +6,56 @@
 
 This API provides endpoints to recomendation, prediction and financial literacy
 
-<br>_Demo : 
+<br>_Demo : https://savemoney-flask-rdiyde43ea-uc.a.run.app/
+
+## Setup if we to local test
+``` git clone https://github.com/SaveMoneyCapstone/ML-Repo.git ```
+
+``` docker build -t api-model:v1 -f Dockerfile . ```
+
+``` docker run -it --rm -p 8080:8080 api-model:v1 ```
+
+## Test using script
+
+``` python3 -m ensurepip ``` or ``` python -m ensurepip ``` 
+
+
+``` pip install requests ```
+
+
+### For Recomendation saham Endpoints
+Open file ```predict-test.py```
+```python
+  url = 'http://localhost:9696/recomendation'
+
+  user = {
+    "pemasukan_seminggu": [50000, 80000, 40000, 45000, 90000, 80000, 75000],
+    "pengeluaran_seminggu": [70000, 30000, 45000, 45000, 93000, 77000, 80000]
+  }  
+
+  response = requests.post(url, json=user).json()
+  print(response)
+```
+Replace url to domain --> https://savemoney-flask-rdiyde43ea-uc.a.run.app/recomendation
+Run ``` python predict-test.py ```
+
+### For Recomendation and prediction expense
+Open file ```tf-predict-test.py```
+```python
+  import requests
+
+  url = 'http://localhost:9696/predict'
+
+  user = {
+    "pengeluaran_seminggu": [150000,  200000,  100000,  120000, 125000,  80000,  90000]
+  }
+
+  response = requests.post(url, json=user).json()
+  print(response)
+```
+Replace url to domain --> https://savemoney-flask-rdiyde43ea-uc.a.run.app/predict
+Run ``` python tf-predict-test.py ```
+
 
 ## Recomendation saham Endpoints
 
@@ -15,6 +64,7 @@ This API provides endpoints to recomendation, prediction and financial literacy
 - **Endpoint:** `/recomendation`
 - **Method:** `POST`
 - **Description:** Financial product recommendations based on user income and expenses.
+- **Content-Type:** application/json
 - **Body:**
   ```json
   {
@@ -58,6 +108,7 @@ no key authentication
 - **Endpoint:** `/predict`
 - **Method:** `POST`
 - **Description:** provides user spending recommendations based on algorithm predictions
+- **Content-Type:** application/json
 - **Body:**
   ```json
   {
