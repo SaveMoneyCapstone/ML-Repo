@@ -10,16 +10,9 @@ import random
 import dill
 from flask import Flask, request, jsonify
 import os
-# import grpc
-# import tensorflow as tf
-# from tensorflow_serving.apis import predict_pb2
-# from tensorflow_serving.apis import prediction_service_pb2_grpc
 import numpy as np
-# from proto import np_to_protobuf
 from tensorflow.keras.models import load_model
 
-# os.environ["no_proxy"] = "*"
-# os.getenv("no_proxy")
 
 API_URL = "https://api.goapi.io/stock/idx/prices"
 API_KEY = '31929822-ee03-533e-38b4-5d817145'
@@ -48,32 +41,6 @@ def predict(data):
     predictions = model_forecast.predict(normalized_data)
     return predictions[0][0]
 
-# host = os.getenv('TF_SERVING_HOST', 'localhost:8500')
-# channel = grpc.insecure_channel(host)
-# stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
-
-# def prepare_request(X):
-#     pb_request = predict_pb2.PredictRequest()
-
-#     pb_request.model_spec.name = 'model_cnn_lstm'
-#     pb_request.model_spec.signature_name = 'serving_default'
-
-#     pb_request.inputs['input_7'].CopyFrom(np_to_protobuf(X))
-#     return pb_request
-
-# def prepare_response(pb_response):
-#     preds = pb_response.outputs['dense_170'].float_val
-#     return preds[0]
-
-# def predict(data):
-#     X = np.array([data])
-#     X_float = X.astype(np.float32)
-#     pb_request = prepare_request(X_float)
-#     pb_response = stub.Predict(pb_request)
-#     response = prepare_response(pb_response)
-#     return response
-
-
 
 #  endpoint news
 kategori = "market"
@@ -92,7 +59,7 @@ def saham_recommendations():
     if request.method == "POST":
         items = data_saham
         k = 10
-        data_user = request.get_json()
+        data_user = request.get_json(force=True)
         data_pemasukan = data_user['incomes']
         data_pengeluaran = data_user['expense']
         if (len(data_pemasukan) == 7 and len(data_pengeluaran) == 7):
@@ -151,7 +118,7 @@ def saham_recommendations():
 @app.route('/predict', methods=['POST'])
 def predict_endpoint():
     if request.method == "POST":
-        data = request.get_json()
+        data = request.get_json(force=True)
         url = data['expense']  
         if len(url) == 7:
             result = predict(url)
