@@ -83,14 +83,18 @@ response_news = requests.get(url_news)
 
 app = Flask('model')
 
+@app.route('/', methods=['GET']):
+def helloWorld():
+    return 'API ONLINE'
+
 @app.route('/recomendation', methods=['POST'])
 def saham_recommendations():
     if request.method == "POST":
         items = data_saham
         k = 10
         data_user = request.get_json()
-        data_pemasukan = data_user['pemasukan_seminggu']
-        data_pengeluaran = data_user['pengeluaran_seminggu']
+        data_pemasukan = data_user['incomes']
+        data_pengeluaran = data_user['expense']
         if (len(data_pemasukan) == 7 and len(data_pengeluaran) == 7):
 
             # pengeluaran user = hasil mean pemasukan dan pengeluaran
@@ -148,7 +152,7 @@ def saham_recommendations():
 def predict_endpoint():
     if request.method == "POST":
         data = request.get_json()
-        url = data['pengeluaran_seminggu']  
+        url = data['expense']  
         if len(url) == 7:
             result = predict(url)
             if result <= url[-1]: 
