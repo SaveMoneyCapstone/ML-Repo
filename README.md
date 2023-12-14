@@ -41,9 +41,9 @@ if user expenses are more than income
       "message": "Success recomendation"
   },
   "data": {
-      'Pemasukan User': [40000, 1000, 2000, 2000, 3000, 4000, 5000],
-      'Pengeluaran User': [400000, 10000, 20000, 20000, 30000, 40000, 500000],
-      'recomendations': "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak"
+      "Pemasukan User": [40000, 1000, 2000, 2000, 3000, 4000, 5000],
+      "Pengeluaran User": [400000, 10000, 20000, 20000, 30000, 40000, 500000],
+      "recomendations": "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak"
   }
   ```
   
@@ -83,9 +83,9 @@ if the prediction from the algorithm is smaller than the current spending
     "message": "Success recomendation and predict"
   },
   "data": {
-    'histories Pengeluaran User': [70000, 30000, 45000, 45000, 93000, 77000, 80000],
-    'prediksi pengeluaran besok': 50000,
-    'rekomendasi pengeluaran': 50000
+    "histories Pengeluaran User": [70000, 30000, 45000, 45000, 93000, 77000, 80000],
+    "prediksi pengeluaran besok": 50000,
+    "rekomendasi pengeluaran": 50000
   }
   ```
   
