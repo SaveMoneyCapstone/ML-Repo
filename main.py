@@ -83,7 +83,7 @@ response_news = requests.get(url_news)
 
 app = Flask('model')
 
-@app.route('/', methods=['GET']):
+@app.route('/', methods=['GET'])
 def helloWorld():
     return 'API ONLINE'
 
