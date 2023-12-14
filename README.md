@@ -8,6 +8,13 @@ This API provides endpoints to recomendation, prediction and financial literacy
 
 <br>_Demo : 
 
+## Setup if we to local test
+``` git clone https://github.com/SaveMoneyCapstone/ML-Repo.git ```
+
+``` docker build -t api-model:v1 -f Dockerfile . ```
+
+``` docker run -it --rm -p 8080:8080 api-model:v1 ```
+
 ## Recomendation saham Endpoints
 
 ### 
