@@ -68,8 +68,159 @@ Run ``` python tf-predict-test.py ```
 - **Body:**
   ```json
   {
-    "pemasukan_seminggu": [50000, 80000, 40000, 45000, 90000, 80000, 75000],
-    "pengeluaran_seminggu": [70000, 30000, 45000, 45000, 93000, 77000, 80000]
+    "incomes": [50000, 80000, 40000, 45000, 90000, 80000, 75000],
+    "expense": [70000, 30000, 45000, 45000, 93000, 77000, 80000]
+  }
+  ```
+- **Response:**
+  ```json
+    {
+    "data": {
+        "Pemasukan User": [
+            50000,
+            80000,
+            40000,
+            45000,
+            90000,
+            80000,
+            75000
+        ],
+        "Pengeluaran User": [
+            70000,
+            30000,
+            45000,
+            45000,
+            93000,
+            77000,
+            80000
+        ],
+        "recomendations": [
+            {
+                "close": 2900,
+                "company.logo": "https://s3.goapi.id/logo/AMRT.jpg",
+                "company.name": "Sumber Alfaria Trijaya Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 2885.0,
+                "high": 2910,
+                "low": 2840,
+                "open": 2890,
+                "symbol": "AMRT",
+                "volume": 19292100
+            },
+            {
+                "close": 5550,
+                "company.logo": "https://s3.goapi.id/logo/BBRI.jpg",
+                "company.name": "Bank Rakyat Indonesia (Persero) Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 5493.75,
+                "high": 5550,
+                "low": 5425,
+                "open": 5450,
+                "symbol": "BBRI",
+                "volume": 270760600
+            },
+            {
+                "close": 486,
+                "company.logo": "https://s3.goapi.id/logo/BBYB.jpg",
+                "company.name": "Bank Neo Commerce Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 464.5,
+                "high": 494,
+                "low": 438,
+                "open": 440,
+                "symbol": "BBYB",
+                "volume": 605238300
+            },
+            {
+                "close": 5350,
+                "company.logo": "https://s3.goapi.id/logo/BBNI.jpg",
+                "company.name": "Bank Negara Indonesia (Persero) Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 5300.0,
+                "high": 5400,
+                "low": 5225,
+                "open": 5225,
+                "symbol": "BBNI",
+                "volume": 91435600
+            },
+            {
+                "close": 178,
+                "company.logo": "https://s3.goapi.id/logo/BRMS.jpg",
+                "company.name": "Bumi Resources Minerals Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 176.0,
+                "high": 182,
+                "low": 172,
+                "open": 172,
+                "symbol": "BRMS",
+                "volume": 302825500
+            },
+            {
+                "close": 5950,
+                "company.logo": "https://s3.goapi.id/logo/BMRI.jpg",
+                "company.name": "Bank Mandiri (Persero) Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 5900.0,
+                "high": 6025,
+                "low": 5800,
+                "open": 5825,
+                "symbol": "BMRI",
+                "volume": 189383100
+            },
+            {
+                "close": 7200,
+                "company.logo": "https://s3.goapi.id/logo/BREN.jpg",
+                "company.name": "Barito Renewables Energy Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 7356.25,
+                "high": 7625,
+                "low": 7025,
+                "open": 7575,
+                "symbol": "BREN",
+                "volume": 29173400
+            },
+            {
+                "close": 101,
+                "company.logo": "https://s3.goapi.id/logo/BIPI.jpg",
+                "company.name": "Astrindo Nusantara Infrastruktur Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 101.25,
+                "high": 103,
+                "low": 100,
+                "open": 101,
+                "symbol": "BIPI",
+                "volume": 600839300
+            },
+            {
+                "close": 242,
+                "company.logo": "https://s3.goapi.id/logo/WIKA.jpg",
+                "company.name": "Wijaya Karya (Persero) Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 217.0,
+                "high": 254,
+                "low": 183,
+                "open": 189,
+                "symbol": "WIKA",
+                "volume": 767534500
+            },
+            {
+                "close": 2490,
+                "company.logo": "https://s3.goapi.id/logo/ADRO.jpg",
+                "company.name": "Adaro Energy Indonesia Tbk.",
+                "date": "2023-12-14",
+                "hasil_mean": 2475.0,
+                "high": 2510,
+                "low": 2440,
+                "open": 2460,
+                "symbol": "ADRO",
+                "volume": 26268500
+            }
+        ]
+    },
+    "status": {
+        "code": 200,
+        "message": "Success recomendation"
+    }
   }
   ```
   
@@ -112,7 +263,29 @@ no key authentication
 - **Body:**
   ```json
   {
-    "pengeluaran_seminggu": [70000, 30000, 45000, 45000, 93000, 77000, 80000]
+    "expense": [25000, 30000, 45000, 10000, 10000, 12000, 30000]
+  }
+  ```
+- **Response:**
+  ```json
+    {
+    "data": {
+        "histories Pengeluaran User": [
+            25000,
+            30000,
+            45000,
+            10000,
+            10000,
+            12000,
+            30000
+        ],
+        "prediksi pengeluaran besok": 9499,
+        "rekomendasi pengeluaran": 9499
+    },
+    "status": {
+        "code": 200,
+        "message": "Success recomendation and predict"
+    }
   }
   ```
   
