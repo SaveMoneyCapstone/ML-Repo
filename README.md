@@ -17,6 +17,12 @@ This API provides endpoints to recomendation, prediction and financial literacy
 
 ## Test using script
 
+``` python3 -m ensurepip ``` or ``` python -m ensurepip ``` 
+
+
+``` pip install requests ```
+
+
 ### For Recomendation saham Endpoints
 Open file ```predict-test.py```
 ```python
@@ -58,6 +64,7 @@ Run ``` python tf-predict-test.py ```
 - **Endpoint:** `/recomendation`
 - **Method:** `POST`
 - **Description:** Financial product recommendations based on user income and expenses.
+- **Content-Type:** application/json
 - **Body:**
   ```json
   {
@@ -101,6 +108,7 @@ no key authentication
 - **Endpoint:** `/predict`
 - **Method:** `POST`
 - **Description:** provides user spending recommendations based on algorithm predictions
+- **Content-Type:** application/json
 - **Body:**
   ```json
   {
