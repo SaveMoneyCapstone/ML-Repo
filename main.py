@@ -20,7 +20,7 @@ SYMBOL_URL = "https://api.goapi.io/stock/idx/trending"
 
 
 # model recomendation
-input_file = 'model_recomendation=1.bin'
+input_file = 'model_recomendation=2.bin'
 
 tfidfvectorizer = TfidfVectorizer()
 
@@ -79,12 +79,18 @@ def saham_recommendations():
                     }
                 }), 200
             else:
-                index = model.loc[:,pengeluaran_user].to_numpy().argpartition(range(-1, -k, -1))
-                closest = model.columns[index[-1:-(k+2):-1]]
+                recomendations = None
+                saham_max = data_saham[data_saham.hasil_mean.eq(data_saham["hasil_mean"].max())]
+                if (pengeluaran_user == saham_max.loc[:, 'symbol'].to_string(index=False)):
+                    df_sorted = data_saham.sort_values(by="hasil_mean", ascending=False).head(5)
+                    recomendations = json.dumps(df_sorted.to_dict(orient='records'))
+                else:
+                    index = model.loc[:,pengeluaran_user].to_numpy().argpartition(range(-1, -k, -1))
+                    closest = model.columns[index[-1:-(k+2):-1]]
 
-                df_recomendations = pd.DataFrame(closest).merge(items).head(k)
-                
-                recomendations = json.dumps(df_recomendations.to_dict(orient='records'))
+                    df_recomendations = pd.DataFrame(closest).merge(items).head(k)
+                    
+                    recomendations = json.dumps(df_recomendations.to_dict(orient='records'))
 
                 return jsonify({
                     "status": {
@@ -122,6 +128,13 @@ def predict_endpoint():
         url = data['expense']  
         if len(url) == 7:
             result = predict(url)
+            total = sum(url) / len(url)
+
+            data_recomen = round(abs(total - url[-1] - round(result)))
+
+            if (data_recomen > result):
+                data_recomen = result
+
             if result <= url[-1]: 
                 return jsonify({
                     "status": {
@@ -135,11 +148,6 @@ def predict_endpoint():
                     }
                 }), 200
             else:
-
-                total = sum(url) / len(url)
-
-                data_recomen = round(abs(total - url[-1] - round(result)))
-
                 return jsonify({
                     "status": {
                         "code": 200,

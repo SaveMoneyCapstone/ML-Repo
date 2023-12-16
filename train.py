@@ -58,9 +58,9 @@ def model_function(df_json, tfidfvectorizer, cosine_similarity, pd):
 def transform_data(data_pemasukan, data_pengeluaran, data_saham, np):
   # Inisialisasi variabel testing
   # data pemasukan dan pengeluaran selama seminggu
-  pemasukan_mean = np.sum(data_pemasukan) / len(data_pemasukan)
-  pengeluaran_mean = np.sum(data_pengeluaran).mean() / len(data_pengeluaran)
-  perbandingan = pemasukan_mean - pengeluaran_mean
+  pemasukan_median = np.median(data_pemasukan)
+  pengeluaran_median = np.median(data_pengeluaran)
+  perbandingan = pemasukan_median - pengeluaran_median
 
   if (perbandingan < 0):
     return "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak"
@@ -68,20 +68,28 @@ def transform_data(data_pemasukan, data_pengeluaran, data_saham, np):
     # Cari baris yang sesuai
     diff = perbandingan - data_saham["hasil_mean"]
 
-    idx = diff <= 10
+    if (diff.max() > data_saham["hasil_mean"].max()):
+      data_max = data_saham["hasil_mean"].max()
 
-    actual_df = data_saham[idx]
-    data_selected = actual_df['hasil_mean'].min()
+      saham_max = data_saham[data_saham.hasil_mean.eq(data_max)]
 
-    saham_selected = data_saham[data_saham.hasil_mean.eq(data_selected)]
+      data_selected_saham_max = saham_max.loc[:, 'symbol'].to_string(index=False)
+      return data_selected_saham_max
+    else:
+      idx = diff <= 10
 
-    data_selected_saham = saham_selected.loc[:, 'symbol'].to_string(index=False)
-    return data_selected_saham
+      actual_df = data_saham[idx]
+      data_selected = actual_df['hasil_mean'].min()
+
+      saham_selected = data_saham[data_saham.hasil_mean.eq(data_selected)]
+
+      data_selected_saham = saham_selected.loc[:, 'symbol'].to_string(index=False)
+      return data_selected_saham
 
 
 # deploy
 
-C = 1
+C = 2
 output_file = f'model_recomendation={C}.bin'
 
 f_out = open(output_file, 'wb')
