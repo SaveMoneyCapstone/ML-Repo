@@ -69,15 +69,15 @@ def saham_recommendations():
             if pengeluaran_user == "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak":
                 return jsonify({
                     "status": {
-                        "code": 200,
-                        "message": "Success recomendation"
+                        "code": 400,
+                        "message": "None recomendation"
                     },
                     "data": {
                         'Pemasukan User': data_pemasukan,
                         'Pengeluaran User': data_pengeluaran,
                         'recomendations': "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak"
                     }
-                }), 200
+                }), 400
             else:
                 recomendations = None
                 saham_max = data_saham[data_saham.hasil_mean.eq(data_saham["hasil_mean"].max())]
