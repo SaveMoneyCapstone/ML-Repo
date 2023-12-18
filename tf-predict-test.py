@@ -1,6 +1,6 @@
 import requests
 
-url = 'https://savemoney-flask-rdiyde43ea-uc.a.run.app/predict'
+url = 'http://localhost:8080/predict'
 
 user = {
     "expense": [150000,  200000,  100000,  120000, 125000,  80000,  90000]

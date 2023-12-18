@@ -1,6 +1,6 @@
 import requests
 
-url = 'https://savemoney-flask-rdiyde43ea-uc.a.run.app/recomendation'
+url = 'http://localhost:8080/recomendation'
 
 user = {
     "incomes": [50000, 80000, 40000, 45000, 90000, 80000, 75000],
