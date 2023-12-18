@@ -21,6 +21,7 @@ setup model built in function
 
 open terminal
 - ``` git clone https://github.com/SaveMoneyCapstone/ML-Repo.git ```
+- ``` cd ML-Repo ```
 - ``` python3 -m ensurepip ```
 - ``` pipenv install ```
 - ``` pipenv install --dev ```
