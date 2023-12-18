@@ -17,6 +17,9 @@ This model uses the parameters of the column and then calculates it to be the me
 the model has built in [functions](https://github.com/SaveMoneyCapstone/ML-Repo/blob/main/train.py) to be trained and saved in ```.bin``` format.
 
 setup model built in function
+
+
+open terminal
 - ``` git clone https://github.com/SaveMoneyCapstone/ML-Repo.git ```
 - ``` python3 -m ensurepip ```
 - ``` pipenv install ```
