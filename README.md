@@ -10,17 +10,19 @@ This API provides endpoints to recomendation, prediction and financial literacy
 <br>_Demo : https://savemoney-flask-rdiyde43ea-uc.a.run.app/
 
 ## Setup local test
-run at the terminal
+open the terminal
 
 
 ``` git clone https://github.com/SaveMoneyCapstone/ML-Repo.git ```
+
+```cd ML-Repo```
 
 ``` docker build -t api-model:v1 -f Dockerfile . ```
 
 ``` docker run -it --rm -p 8080:8080 api-model:v1 ```
 
 ## Test using script
-run at the terminal
+open the terminal
 
 ``` python3 -m ensurepip ``` or ``` python -m ensurepip ``` 
 
@@ -29,13 +31,38 @@ run at the terminal
 
 
 ### For Recomendation saham
-run at the terminal
+open ```predict-test.py``` in editor code
+
+```python
+  user = {
+    "incomes": [50000, 80000, 40000, 45000, 90000, 80000, 75000],
+    "expense": [70000, 30000, 45000, 45000, 93000, 77000, 80000]
+  }
+```
+
+replace value key ```"incomes"``` ```[50000, 80000, 40000, 45000, 90000, 80000, 75000]``` --> with user incomes for the last 7 days
+
+replace value key ```"expense"``` ```[70000, 30000, 45000, 45000, 93000, 77000, 80000]``` --> with user expense for the last 7 days
+
+open the terminal
 
 
 ``` python predict-test.py ```
 
 ### For Recomendation and prediction expense
-run at the terminal
+open ```tf-predict-test.py``` in editor code
+
+```python
+  user = {
+    "expense": [150000,  200000,  100000,  120000, 125000,  80000,  90000]
+  }
+```
+
+replace value key ```"expense"``` ```[150000,  200000,  100000,  120000, 125000,  80000,  90000]``` --> with user expense for the last 7 days
+
+
+
+open the terminal
 
 
 ``` python tf-predict-test.py ```
@@ -56,6 +83,11 @@ run at the terminal
     "expense": [70000, 30000, 45000, 45000, 93000, 77000, 80000]
   }
   ```
+replace value key ```"incomes"``` ```[50000, 80000, 40000, 45000, 90000, 80000, 75000]``` --> with user incomes for the last 7 days
+
+replace value key ```"expense"``` ```[70000, 30000, 45000, 45000, 93000, 77000, 80000]``` --> with user expense for the last 7 days
+
+
 - **Response:**
   ```json
     {
@@ -250,6 +282,11 @@ no key authentication
     "expense": [25000, 30000, 45000, 10000, 10000, 12000, 30000]
   }
   ```
+
+
+replace value key ```"expense"``` ```[25000, 30000, 45000, 10000, 10000, 12000, 30000]``` --> with user expense for the last 7 days
+
+
 - **Response:**
   ```json
     {
