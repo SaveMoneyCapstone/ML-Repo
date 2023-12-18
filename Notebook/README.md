@@ -21,7 +21,7 @@ setup model built in function
 - ``` python3 -m ensurepip ```
 - ``` pipenv install ```
 - ``` pipenv install --dev ```
-- ``` python train.py ```
+- ``` pipenv run python train.py ```
 
 
 
