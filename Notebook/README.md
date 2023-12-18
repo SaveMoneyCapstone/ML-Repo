@@ -26,6 +26,8 @@ setup model built in function
 
 
 ## Model Forecasting
+This model uses the [tensorflow](https://www.tensorflow.org/) library and tensorflow costum layer in the n-beast approach in the [paper](https://colab.research.google.com/corgiredirector?site=https%3A%2F%2Farxiv.org%2Fpdf%2F1905.10437.pdf) as an experiment model.
+
 the forecasting model here uses an experimental approach of 6 models, with the baseline model being naive forecasting.
 
 In this approach, with a baseline of naive forecasting mode, the model with the smallest ```mae, mse, rmse, mape, mase``` values and efficient paramter and hyperparameter sizes is ```model_8_cnn_lstm```
