@@ -1,4 +1,5 @@
 # Machine Learning
+For documentation on the model description is [here](https://github.com/SaveMoneyCapstone/ML-Repo/tree/main/Notebook)
 
 # REST API ML
 
@@ -8,7 +9,10 @@ This API provides endpoints to recomendation, prediction and financial literacy
 
 <br>_Demo : https://savemoney-flask-rdiyde43ea-uc.a.run.app/
 
-## Setup if we to local test
+## Setup local test
+run at the terminal
+
+
 ``` git clone https://github.com/SaveMoneyCapstone/ML-Repo.git ```
 
 ``` docker build -t api-model:v1 -f Dockerfile . ```
@@ -16,6 +20,7 @@ This API provides endpoints to recomendation, prediction and financial literacy
 ``` docker run -it --rm -p 8080:8080 api-model:v1 ```
 
 ## Test using script
+run at the terminal
 
 ``` python3 -m ensurepip ``` or ``` python -m ensurepip ``` 
 
@@ -23,38 +28,17 @@ This API provides endpoints to recomendation, prediction and financial literacy
 ``` pip install requests ```
 
 
-### For Recomendation saham Endpoints
-Open file ```predict-test.py```
-```python
-  url = 'http://localhost:9696/recomendation'
+### For Recomendation saham
+run at the terminal
 
-  user = {
-    "incomes": [50000, 80000, 40000, 45000, 90000, 80000, 75000],
-    "expense": [70000, 30000, 45000, 45000, 93000, 77000, 80000]
-  }  
 
-  response = requests.post(url, json=user).json()
-  print(response)
-```
-Replace url to domain --> https://savemoney-flask-rdiyde43ea-uc.a.run.app/recomendation
-Run ``` python predict-test.py ```
+``` python predict-test.py ```
 
 ### For Recomendation and prediction expense
-Open file ```tf-predict-test.py```
-```python
-  import requests
+run at the terminal
 
-  url = 'http://localhost:9696/predict'
 
-  user = {
-    "expense": [150000,  200000,  100000,  120000, 125000,  80000,  90000]
-  }
-
-  response = requests.post(url, json=user).json()
-  print(response)
-```
-Replace url to domain --> https://savemoney-flask-rdiyde43ea-uc.a.run.app/predict
-Run ``` python tf-predict-test.py ```
+``` python tf-predict-test.py ```
 
 
 ## Recomendation saham Endpoints
