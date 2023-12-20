@@ -3,11 +3,7 @@ FROM python:3.9-slim
 
 RUN pip install pipenv
 
-ENV PYTHONBUFFERED True
-
-ENV APP_HOME /app
-
-WORKDIR $APP_HOME
+WORKDIR /app
 
 COPY ["Pipfile", "Pipfile.lock", "./"]
 
@@ -21,4 +17,4 @@ ENV PORT 8080
 # Specify entrypoint
 # CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+CMD exec gunicorn --bind :$PORT main:app --workers 1 --threads 1 --timeout 1600
