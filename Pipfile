@@ -17,7 +17,6 @@ gunicorn = "*"
 grpcio = "==1.60.0"
 keras = "*"
 python-dotenv = "*"
-tensorflow = "*"
 
 [dev-packages]
 

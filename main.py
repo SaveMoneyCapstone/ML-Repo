@@ -200,4 +200,6 @@ def news_endpoint():
 
 
 if __name__ == "model":
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True,
+            host="0.0.0.0",
+            port=int(os.environ.get("PORT", 8080)))
