@@ -20,16 +20,16 @@ SYMBOL_URL = "https://api.goapi.io/stock/idx/trending"
 
 
 # model recomendation
-input_file = 'model_recomendation=2.bin'
+# input_file = 'model_recomendation=2.bin'
 
-tfidfvectorizer = TfidfVectorizer()
+# tfidfvectorizer = TfidfVectorizer()
 
-with open(input_file, 'rb') as f_in:
-    generate_saham_tren, transform_json_to_df, transform_data, model = dill.load(f_in)
+# with open(input_file, 'rb') as f_in:
+#     generate_saham_tren, transform_json_to_df, transform_data, model = dill.load(f_in)
 
-symbol_string = generate_saham_tren(SYMBOL_URL, API_KEY, requests, json, pd)
-data_saham = transform_json_to_df(API_URL, symbol_string, API_KEY, urllib, requests, json, pd)
-model = model(data_saham, tfidfvectorizer, cosine_similarity, pd)
+# symbol_string = generate_saham_tren(SYMBOL_URL, API_KEY, requests, json, pd)
+# data_saham = transform_json_to_df(API_URL, symbol_string, API_KEY, urllib, requests, json, pd)
+# model = model(data_saham, tfidfvectorizer, cosine_similarity, pd)
 
 
 # model forecast
@@ -56,69 +56,85 @@ def helloWorld():
 
 @app.route('/recomendation', methods=['POST'])
 def saham_recommendations():
-    if request.method == "POST":
-        items = data_saham
-        k = 10
-        data_user = request.get_json(force=True)
-        data_pemasukan = data_user['incomes']
-        data_pengeluaran = data_user['expense']
-        if (len(data_pemasukan) == 7 and len(data_pengeluaran) == 7):
-
-            # pengeluaran user = hasil mean pemasukan dan pengeluaran
-            pengeluaran_user = transform_data(data_pemasukan, data_pengeluaran, data_saham, np)
-            if pengeluaran_user == "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak":
-                return jsonify({
-                    "status": {
-                        "code": 400,
-                        "message": "None recomendation"
-                    },
-                    "data": {
-                        'Pemasukan User': data_pemasukan,
-                        'Pengeluaran User': data_pengeluaran,
-                        'recomendations': "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak"
-                    }
-                }), 400
-            else:
-                recomendations = None
-                saham_max = data_saham[data_saham.hasil_mean.eq(data_saham["hasil_mean"].max())]
-                if (pengeluaran_user == saham_max.loc[:, 'symbol'].to_string(index=False)):
-                    df_sorted = data_saham.sort_values(by="hasil_mean", ascending=False).head(5)
-                    recomendations = json.dumps(df_sorted.to_dict(orient='records'))
-                else:
-                    index = model.loc[:,pengeluaran_user].to_numpy().argpartition(range(-1, -k, -1))
-                    closest = model.columns[index[-1:-(k+2):-1]]
-
-                    df_recomendations = pd.DataFrame(closest).merge(items).head(k)
-                    
-                    recomendations = json.dumps(df_recomendations.to_dict(orient='records'))
-
-                return jsonify({
-                    "status": {
-                        "code": 200,
-                        "message": "Success recomendation"
-                    },
-                    "data": {
-                        'Pemasukan User': data_pemasukan,
-                        'Pengeluaran User': data_pengeluaran,
-                        'recomendations': json.loads(recomendations)
-                    }
-                }), 200
-        else:
-            return jsonify({
-                "status": {
-                    "code": 400,
-                    "message": "Invalid length data. Please data containts a array = 7."
-                },
-                "data": "Tidak ada Rekomendasi Saham",
-            }), 400
-    else:
-        return jsonify({
+    data_user = request.get_json(force=True)
+    data_pemasukan = data_user['incomes']
+    data_pengeluaran = data_user['expense']
+    return jsonify({
             "status": {
-                "code": 405,
-                "message": "Method not allowed"
+                "code": 400,
+                "message": "Perbaikan API External"
             },
-            "data": None,
-        }), 405
+            "data": {
+                'Pemasukan User': data_pemasukan,
+                'Pengeluaran User': data_pengeluaran,
+                'recomendations': "Perbaikan API External"
+            }
+            
+        }), 400
+    
+    # if request.method == "POST":
+    #     items = data_saham
+    #     k = 10
+    #     data_user = request.get_json(force=True)
+    #     data_pemasukan = data_user['incomes']
+    #     data_pengeluaran = data_user['expense']
+    #     if (len(data_pemasukan) == 7 and len(data_pengeluaran) == 7):
+
+    #         # pengeluaran user = hasil mean pemasukan dan pengeluaran
+    #         pengeluaran_user = transform_data(data_pemasukan, data_pengeluaran, data_saham, np)
+    #         if pengeluaran_user == "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak":
+    #             return jsonify({
+    #                 "status": {
+    #                     "code": 400,
+    #                     "message": "None recomendation"
+    #                 },
+    #                 "data": {
+    #                     'Pemasukan User': data_pemasukan,
+    #                     'Pengeluaran User': data_pengeluaran,
+    #                     'recomendations': "Tidak ada rekomendasi Saham, Pengeluaran anda terlalu banyak"
+    #                 }
+    #             }), 400
+    #         else:
+    #             recomendations = None
+    #             saham_max = data_saham[data_saham.hasil_mean.eq(data_saham["hasil_mean"].max())]
+    #             if (pengeluaran_user == saham_max.loc[:, 'symbol'].to_string(index=False)):
+    #                 df_sorted = data_saham.sort_values(by="hasil_mean", ascending=False).head(5)
+    #                 recomendations = json.dumps(df_sorted.to_dict(orient='records'))
+    #             else:
+    #                 index = model.loc[:,pengeluaran_user].to_numpy().argpartition(range(-1, -k, -1))
+    #                 closest = model.columns[index[-1:-(k+2):-1]]
+
+    #                 df_recomendations = pd.DataFrame(closest).merge(items).head(k)
+                    
+    #                 recomendations = json.dumps(df_recomendations.to_dict(orient='records'))
+
+    #             return jsonify({
+    #                 "status": {
+    #                     "code": 200,
+    #                     "message": "Success recomendation"
+    #                 },
+    #                 "data": {
+    #                     'Pemasukan User': data_pemasukan,
+    #                     'Pengeluaran User': data_pengeluaran,
+    #                     'recomendations': json.loads(recomendations)
+    #                 }
+    #             }), 200
+    #     else:
+    #         return jsonify({
+    #             "status": {
+    #                 "code": 400,
+    #                 "message": "Invalid length data. Please data containts a array = 7."
+    #             },
+    #             "data": "Tidak ada Rekomendasi Saham",
+    #         }), 400
+    # else:
+        # return jsonify({
+        #     "status": {
+        #         "code": 405,
+        #         "message": "Method not allowed"
+        #     },
+        #     "data": None,
+        # }), 405
 
 
 @app.route('/predict', methods=['POST'])
