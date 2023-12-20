@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED True
 # Copy local code to the container image.
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY . ./
+COPY ["main.py", "model_recomendation=2.bin", "model_cnn_lstm.h5", "requirements.txt", ".flaskenv", "./"]
 
 # Install production dependencies.
 RUN pip install -r requirements.txt
