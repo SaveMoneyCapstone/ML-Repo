@@ -15,7 +15,7 @@ from tensorflow.keras.models import load_model
 
 
 API_URL = "https://api.goapi.io/stock/idx/prices"
-API_KEY = '83173cf2-e66e-58f7-442a-e7e61c2b'
+API_KEY = 'a8c6f0c0-88ec-5c6a-9387-787d9c52'
 SYMBOL_URL = "https://api.goapi.io/stock/idx/trending"
 
 
@@ -38,13 +38,14 @@ def check_saham_tren(SYMBOL_URL, API_KEY, requests, json, pd):
         symbol_string = generate_saham_tren(SYMBOL_URL, API_KEY, requests, json, pd)
         return symbol_string
     else:
-        return jsonify({
+        result = {
             "status": {
                 "code": 400,
                 "message": "Error in fetching data from SYMBOL_URL maintenance"
             },
             "data": None,
-        }), 400
+        }
+        return result
 
 def check_transform_json_to_df(API_URL, symbol_string, API_KEY, urllib, requests, json, pd):
     query_params = urllib.parse.urlencode({'symbols': symbol_string})
@@ -55,13 +56,14 @@ def check_transform_json_to_df(API_URL, symbol_string, API_KEY, urllib, requests
         data_saham = transform_json_to_df(API_URL, symbol_string, API_KEY, urllib, requests, json, pd)
         return data_saham
     else:
-        return jsonify({
+        result = {
             "status": {
                 "code": 400,
                 "message": "Error in fetching data from API_URL maintenance"
             },
             "data": None,
-        }), 400
+        }
+        return result
 
 
 # model forecast
@@ -159,9 +161,9 @@ def saham_recommendations():
                     "data": None,
                 }), 405
         else:
-            return data_saham.get_json()
+            return jsonify(data_saham), 400
     else:
-        return symbol_string.get_json()
+        return jsonify(symbol_string), 400
 
 
 @app.route('/predict', methods=['POST'])
