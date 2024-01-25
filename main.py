@@ -15,7 +15,7 @@ from tensorflow.keras.models import load_model
 
 
 API_URL = "https://api.goapi.io/stock/idx/prices"
-API_KEY = 'a8c6f0c0-88ec-5c6a-9387-787d9c52'
+API_KEY = '5dd2dacc-346d-59b0-5359-22944cc5'
 SYMBOL_URL = "https://api.goapi.io/stock/idx/trending"
 
 
