@@ -1,17 +1,20 @@
-# Stage 1: Python Flask app
+# Use the official lightweight Python image.
+# https://hub.docker.com/_/python
 FROM python:3.9-slim
 
-RUN pip install pipenv
+# Allow statements and log messages to immediately appear in the Knative logs
+ENV PYTHONUNBUFFERED True
 
-WORKDIR /app
+# Copy local code to the container image.
+ENV APP_HOME /app
+WORKDIR $APP_HOME
+COPY ["main.py", "model_recomendation=2.bin", "model_cnn_lstm.h5", "requirements.txt", ".flaskenv", "./"]
 
-COPY ["Pipfile", "Pipfile.lock", "./"]
+# Install production dependencies.
+RUN pip install -r requirements.txt
 
-RUN pipenv install --system --deploy
+# EXPOSE 8080
+# ENV PORT 8080
 
-COPY ["main.py", ".flaskenv", "model_recomendation=2.bin", "model_cnn_lstm.h5", "./"]
-
-EXPOSE 8080
-
-# Specify entrypoint
-ENTRYPOINT ["gunicorn", "--bind=0.0.0.0:8080", "main:app"]
+# Run the web service on container startup.
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
